@@ -17,6 +17,7 @@ export default class Feed extends React.Component {
   static propTypes = {
     content: PropTypes.array,
     listHeaderComponent: PropTypes.object,
+    profileRequestedCalledFunction: PropTypes.func,
   }
 
   state = {
@@ -29,7 +30,7 @@ export default class Feed extends React.Component {
       this.setState({feedEntries: this.props.content});
     } else {
       // Part 1.1
-      //this.getFeedData();
+      this.getFeedData();
     }
   }
 
@@ -46,7 +47,9 @@ export default class Feed extends React.Component {
     /* make sure that the prop is not null first by using an if statement*/
     /* when calling the prop function, pass the username to it */
     //sample call to a function inside of props: this.props.myFunction('someParameterString');
-	
+    if (typeof this.props.profileRequestedCalledFunction === 'function') {
+      this.props.profileRequestedCalledFunction(username);
+    }
   }
 
   //here's a simple key extractor which uses the item's ID as a unique value indicator
@@ -58,7 +61,10 @@ export default class Feed extends React.Component {
     /* FeedItem props: content and onProfilePressed */
     /* Important spec: pass the function this.onProfilePressed to the FeedItem prop ^ */
     return (
-      <View />
+      <FeedItem
+        content={item}
+        onProfilePressed={this.onProfilePressed}
+      />
     );
   }
 
@@ -87,9 +93,12 @@ export default class Feed extends React.Component {
       /* NOTE: that Feed.js accepts a prop called 'listHeaderComponent', which is what you should render as a header here. */
 
       return (
-
-        <Text style={{margin: 20}}>Put your list here!</Text>
-
+        <FlatList
+          ListHeaderComponent={this.props.listHeaderComponent}
+          data={this.state.feedEntries}
+          renderItem={this.renderItem}
+          keyExtractor={this._keyExtractor}
+        />
       );
     }
 
