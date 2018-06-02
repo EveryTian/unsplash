@@ -68,7 +68,6 @@ export default class FeedItem extends React.Component {
     const { profile_image: profileImage = {} } = user;
 
     const imageDim = this.calculateImageRect(content.width, content.height);
-
     return (
       <View style={styles.container}>
 
@@ -103,7 +102,6 @@ export default class FeedItem extends React.Component {
           {this.showImageLoader(imageDim.width, imageDim.height)}
         </View>
 
-		/* Part 2.1 */
         <View style={styles.likesContainer}>
 
           <Entypo
@@ -111,16 +109,14 @@ export default class FeedItem extends React.Component {
             size={Metrics.icons.medium}
             color={Colors.ember} />
 			
-		  // use content.likes to replace "Part 2.1"
-          <Text style={[material.body1, {flex: 1, marginLeft: 5}]}>"Part 2.1"</Text>
+          <Text style={[material.body1, {flex: 1, marginLeft: 5}]}>{content.likes}</Text>
 
-		  // use TouchableOpacity for feedback and the onPress prop is the sharedPressed function
-          
+          <TouchableOpacity onPress={this.sharedPressed}>
             <Entypo
               name="share-alternative"
               size={Metrics.icons.small}
               color={Colors.steel} />
-          
+          </TouchableOpacity>
 
         </View>
 
@@ -128,14 +124,13 @@ export default class FeedItem extends React.Component {
           <Text style={material.body1}>{content.description || 'No Description'}</Text>
         </View>
 
-		// add a Text to show the posted date
-		// use the style material.caption and the getPostedDate function
         <View style={styles.dateContainer}>
-          
+          <Text style={material.caption}>{this.getPostedDate()}</Text>
         </View>
 
       </View>
     );
+ 
   }
 
   getPostedDate = () => {
@@ -188,18 +183,20 @@ export default class FeedItem extends React.Component {
     try {
       if (this._hasItem(bookmarks, newBookmarkItem)) return; //already included, don't add again
 
-      let mutableBookmarks = [...bookmarks, newBookmarkItem];
+      const mutableBookmarks = [...bookmarks, newBookmarkItem];
       /* Part 2.2 */
-	  /* Store the new mutableBookmarks arary in AsyncStorage, use AppConfig.keys.bookmarks as the key*/
+	    /* Store the new mutableBookmarks arary in AsyncStorage, use AppConfig.keys.bookmarks as the key*/
       /* You will need to call JSON.stringify on the mutableBookmarks object, since AsyncStorage only takes strings*/
+      await AsyncStorage.setItem(AppConfig.keys.bookmarks, JSON.stringify(mutableBookmarks));
     } catch (error) {
       // Error saving data
+      console.log(error);
     }
   }
 
   _removeBookmark = async (bookmarks, newItem) => {
     const mutableBookmarks = bookmarks;
-    for (var index = 0; index < mutableBookmarks.length; index++) {
+    for (let index = 0; index < mutableBookmarks.length; index++) {
       if (mutableBookmarks[index].id === newItem.id) {
         mutableBookmarks.splice(index, 1);
         break;
@@ -210,24 +207,36 @@ export default class FeedItem extends React.Component {
     /* Store the new mutableBookmarks arary (now with a removed item) in AsyncStorage, use AppConfig.keys.bookmarks as the key*/
     /* You will need to call JSON.stringify on the mutableBookmarks object, since AsyncStorage only takes strings*/
     /* Wrap your call on a try, catch block like in part 1*/
+    try {
+      await AsyncStorage.setItem(AppConfig.keys.bookmarks, JSON.stringify(mutableBookmarks));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   _getBookmarks = async () => {
     try {
 	  /* Part 2.2 */
 	  /* Get the bookmarks in AsyncStorage, use AppConfig.keys.bookmarks as the keys */
-      const bookmark = []
-      return (bookmark ? JSON.parse(bookmark) : []);
+      let bookmark = [];
+      await AsyncStorage.getItem(AppConfig.keys.bookmarks, (error, result) => {
+        if (error) {
+          console.log(error);
+        } else {
+          bookmark = JSON.parse(result);
+        }
+      });
+      return bookmark;
     } catch (error) {
       console.log(error);
     }
-    return ([]);
+    return [];
   }
 
   _hasItem = (bookmarks, newItem) => {
     if (!bookmarks) return false;
 
-    for (var index = 0; index < bookmarks.length; index++) {
+    for (let index = 0; index < bookmarks.length; index++) {
       if (bookmarks[index].id === newItem.id) {
         return true;
       }
