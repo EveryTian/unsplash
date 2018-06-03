@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
 import { getPopularPhotos } from '../API/Unsplash.js';
-import { material } from 'react-native-typography';
-import { Metrics } from '../Themes';
 import FeedItem from '../Components/FeedItem';
 import { Entypo } from '@expo/vector-icons';
 
@@ -18,12 +16,12 @@ export default class Feed extends React.Component {
     content: PropTypes.array,
     listHeaderComponent: PropTypes.object,
     profileRequestedCalledFunction: PropTypes.func,
-  }
+  };
 
   state = {
     loading: false,
     feedEntries: [],
-  }
+  };
 
   componentDidMount(){
     if (this.props.content) {
@@ -39,7 +37,7 @@ export default class Feed extends React.Component {
     getPopularPhotos(json => { //this code will be fetching images from the Unsplash API
       this.setState({feedEntries: json, loading: false});
     });
-  }
+  };
 
   onProfilePressed = (username) => {
 	/* Part 1.4 */
@@ -50,10 +48,10 @@ export default class Feed extends React.Component {
     if (typeof this.props.profileRequestedCalledFunction === 'function') {
       this.props.profileRequestedCalledFunction(username);
     }
-  }
+  };
 
   //here's a simple key extractor which uses the item's ID as a unique value indicator
-  _keyExtractor = (item, index) => item.id;
+  _keyExtractor = item => item.id;
 
   renderItem = ({item}) => {
 	/* Part 1.2 */
@@ -66,7 +64,7 @@ export default class Feed extends React.Component {
         onProfilePressed={this.onProfilePressed}
       />
     );
-  }
+  };
 
   render() {
     return (

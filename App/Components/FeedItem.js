@@ -8,31 +8,31 @@ import styles from './Styles/FeedItem.styles';
 import AppConfig from '../Config/AppConfig';
 
 export default class FeedItem extends React.Component {
-  static defaultProps = { content: {} }
+  static defaultProps = { content: {} };
 
   static propTypes = {
     content: PropTypes.object.isRequired,
     onProfilePressed: PropTypes.func,
-  }
+  };
 
   state = {
     loading: false,
     bookmarked: false,
     savingBookmark: false,
-  }
+  };
 
   componentDidMount = async () => {
     const { content = {} } = this.props;
     const isBookmarked = await this.isItemBookmarked(content);
     if (isBookmarked) this.setState({bookmarked: true});
-  }
+  };
 
   sharedPressed = () => {
     const { content = {} } = this.props;
     const { urls = {} } = content;
 
     Share.share({message: content.description, url: urls.full})
-  }
+  };
 
   bookmarkPressed = () => {
     if (this.state.savingBookmark) return; //stop if already saving
@@ -45,7 +45,7 @@ export default class FeedItem extends React.Component {
     }
 
     this.setState({bookmarked: !this.state.bookmarked});
-  }
+  };
 
   profilePressed = () => {
     if (this.props.onProfilePressed) {
@@ -54,12 +54,12 @@ export default class FeedItem extends React.Component {
 
       this.props.onProfilePressed(user.username);
     }
-  }
+  };
 
   isItemBookmarked = async (newItem) => {
     const bookmarks = await this._getBookmarks();
     return this._hasItem(bookmarks, newItem);
-  }
+  };
 
   render() {
     const { content = {} } = this.props;
@@ -95,8 +95,8 @@ export default class FeedItem extends React.Component {
           <Image
             style={{width: imageDim.width, height: imageDim.height}}
             resizeMode='contain'
-            onLoadStart={(e) => this.setState({loading: true})}
-            onLoad={(e) => this.setState({loading: false})}
+            onLoadStart={() => this.setState({loading: true})}
+            onLoad={() => this.setState({loading: false})}
             source={{uri: urls.full}}/>
 
           {this.showImageLoader(imageDim.width, imageDim.height)}
@@ -138,7 +138,7 @@ export default class FeedItem extends React.Component {
     const postedDate = new Date(content.created_at);
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return postedDate.toLocaleDateString('en', options);
-  }
+  };
 
   showImageLoader = (width, height) => {
     const { loading } = this.state;
@@ -150,7 +150,7 @@ export default class FeedItem extends React.Component {
         </View>
       );
     }
-  }
+  };
 
   calculateImageRect = (oldWidth, oldHeight) => {
     const newWidth = Metrics.screenWidth;
@@ -159,7 +159,7 @@ export default class FeedItem extends React.Component {
     const newHeight = newWidth / aspectRatio;   //div width by aspect ratio
 
     return {width: newWidth, height: newHeight};
-  }
+  };
 
   saveBookmark = async (newItem) => {
     this.setState({savingBookmark: true});
@@ -168,7 +168,7 @@ export default class FeedItem extends React.Component {
     await this._storeBookmark(bookmarks, newItem);
 
     this.setState({savingBookmark: false});
-  }
+  };
 
   deleteBookmark = async (item) => {
     this.setState({savingBookmark: true});
@@ -177,7 +177,7 @@ export default class FeedItem extends React.Component {
     await this._removeBookmark(bookmarks, item);
 
     this.setState({savingBookmark: false});
-  }
+  };
 
   _storeBookmark = async (bookmarks, newBookmarkItem) => {
     try {
@@ -192,7 +192,7 @@ export default class FeedItem extends React.Component {
       // Error saving data
       console.log(error);
     }
-  }
+  };
 
   _removeBookmark = async (bookmarks, newItem) => {
     const mutableBookmarks = bookmarks;
@@ -212,7 +212,7 @@ export default class FeedItem extends React.Component {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   _getBookmarks = async () => {
     try {
@@ -231,7 +231,7 @@ export default class FeedItem extends React.Component {
       console.log(error);
     }
     return [];
-  }
+  };
 
   _hasItem = (bookmarks, newItem) => {
     if (!bookmarks) return false;
