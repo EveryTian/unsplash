@@ -41,8 +41,8 @@ export default class HomeScreen extends React.Component {
     /* as the first parameter of the navigate function */
 
     /* pass the username on this function as a parameter to the navigate function, below is a prototype*/
-    //navigate('UserProfileScreen' /* make sure name matches what is inside of AppNavigation*/, { username: username });
-  }
+    this.props.navigation.navigate('UserProfileScreen' /* make sure name matches what is inside of AppNavigation*/, { username: username });
+  };
 
   render() {
     return (
