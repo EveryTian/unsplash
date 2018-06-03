@@ -34,15 +34,31 @@ export default class BookmarkScreen extends React.Component {
   getBookmarks = async () => {
     /* Part 5.2 */
 	/* implement this function similar to the _getBookmarks() in FeedItem.js */
-	
-    return ([]);
+    try {
+      let bookmark = [];
+      await AsyncStorage.getItem(AppConfig.keys.bookmarks, (error, result) => {
+        if (error) {
+          console.log(error);
+        } else {
+          // console.warn('result', result);
+          if (result) {
+            bookmark = JSON.parse(result);
+          }
+        }
+      });
+      return bookmark;
+    } catch (error) {
+      console.log(error);
+    }
+    return [];
   }
 
   bookmarkPressed = (item) => {
 	/* Part 5.1 */
 	/* similar to Part 4 */
 	/* pass the item on this function as a parameter to the navigate function*/
-	
+    this.props.navigation.navigate('BookmarkViewerScreen', { content: item });
+
   }
 
   reloadBookmarks = async () => {

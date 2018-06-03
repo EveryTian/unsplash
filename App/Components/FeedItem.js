@@ -185,12 +185,12 @@ export default class FeedItem extends React.Component {
 
       const mutableBookmarks = [...bookmarks, newBookmarkItem];
       /* Part 2.2 */
-	    /* Store the new mutableBookmarks arary in AsyncStorage, use AppConfig.keys.bookmarks as the key*/
+	    /* Store the new mutableBookmarks array in AsyncStorage, use AppConfig.keys.bookmarks as the key*/
       /* You will need to call JSON.stringify on the mutableBookmarks object, since AsyncStorage only takes strings*/
       await AsyncStorage.setItem(AppConfig.keys.bookmarks, JSON.stringify(mutableBookmarks));
     } catch (error) {
       // Error saving data
-      console.log(error);
+      console.warn(error);
     }
   };
 
