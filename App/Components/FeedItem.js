@@ -223,7 +223,9 @@ export default class FeedItem extends React.Component {
         if (error) {
           console.log(error);
         } else {
-          bookmark = JSON.parse(result);
+          if (result) {
+            bookmark = JSON.parse(result);
+          }
         }
       });
       return bookmark;
