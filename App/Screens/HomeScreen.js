@@ -1,13 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { material } from 'react-native-typography';
-import { Metrics } from '../Themes';
-import { Entypo } from '@expo/vector-icons';
+import {StyleSheet, Text, View} from 'react-native';
+import {material} from 'react-native-typography';
+import {Metrics} from '../Themes';
+import {Entypo} from '@expo/vector-icons';
 import Feed from '../Components/Feed'
 
 export default class HomeScreen extends React.Component {
 
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({navigation}) => {
     const params = navigation.state.params || {};
 
     return {
@@ -17,18 +17,18 @@ export default class HomeScreen extends React.Component {
           <Text style={[material.caption, {fontSize: 10}]}>Popular</Text>
         </View>
       ),
-      tabBarIcon: ({ tintColor }) => (
-        <Entypo name="home"
+      tabBarIcon: ({tintColor}) => (
+        <Entypo
+          name="home"
           size={Metrics.icons.medium}
-          color={tintColor} />
+          color={tintColor}/>
       ),
     };
   };
 
-  onProfileRequested = (username) => {
+  onProfileRequested = username => {
     console.log("Requested: " + username);
-
-	/* Part 4 */
+    /* Part 4 */
     /* you will want to call the navigate function here */
     /* this function will be inside of this.props.navigation */
     /* think of destructing the function "navigate" from inside of your navigation props*/
@@ -41,13 +41,13 @@ export default class HomeScreen extends React.Component {
     /* as the first parameter of the navigate function */
 
     /* pass the username on this function as a parameter to the navigate function, below is a prototype*/
-    this.props.navigation.navigate('UserProfileScreen' /* make sure name matches what is inside of AppNavigation*/, { username: username });
+    this.props.navigation.navigate('UserProfileScreen' /* make sure name matches what is inside of AppNavigation*/, {username: username});
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Feed onProfileRequested={this.onProfileRequested} />
+        <Feed profileRequestedCalledFunction={this.onProfileRequested}/>
       </View>
     );
   }
