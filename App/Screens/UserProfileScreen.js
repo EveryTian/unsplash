@@ -1,15 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, ActivityIndicator, Image } from 'react-native';
-import { getPhotosForUser } from '../API/Unsplash.js';
-import { material } from 'react-native-typography';
-import { Metrics, Colors } from '../Themes';
-import { Entypo } from '@expo/vector-icons';
+import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import {getPhotosForUser} from '../API/Unsplash.js';
+import {material} from 'react-native-typography';
+import {Metrics, Colors} from '../Themes';
+import {Entypo} from '@expo/vector-icons';
 import Feed from '../Components/Feed'
 
 export default class UserProfileScreen extends React.Component {
 
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({navigation}) => {
     const params = navigation.state.params || {};
     const username = params.username;
 
@@ -20,10 +19,11 @@ export default class UserProfileScreen extends React.Component {
           <Text style={[material.caption, {fontSize: 10}]}>{username}</Text>
         </View>
       ),
-      tabBarIcon: ({ tintColor }) => (
-        <Entypo name="home"
+      tabBarIcon: ({tintColor}) => (
+        <Entypo
+          name="home"
           size={Metrics.icons.medium}
-          color={tintColor} />
+          color={tintColor}/>
       ),
     };
   };
@@ -32,11 +32,12 @@ export default class UserProfileScreen extends React.Component {
     content: {},
     loading: true,
     user: {},
-  }
+  };
 
   componentDidMount() {
-    if(!this.props.navigation) return;
-
+    if (!this.props.navigation) {
+      return;
+    }
     const params = this.props.navigation.state.params || {};
     const username = params.username;
     this.loadUserContent(username);
@@ -49,28 +50,26 @@ export default class UserProfileScreen extends React.Component {
       console.log(json);
       this.setState({content: json, loading: false});
 
-      if (json[0]){
+      if (json[0]) {
         this.setState({user: json[0].user});
       }
     }, username);
-  }
+  };
 
   render() {
-    const { content } = this.state;
-
+    const {content} = this.state;
     return (
       <View style={styles.container}>
-
         {this.getFeedContent()}
-
       </View>
     );
   }
 
   getUserContent = () => {
-    const { user } = this.state;
-    if (!user.id) return null;
-
+    const {user} = this.state;
+    if (!user.id) {
+      return null;
+    }
     return (
       <View style={styles.userContainer}>
         <Text style={material.display1}>{user.name}</Text>
@@ -78,23 +77,22 @@ export default class UserProfileScreen extends React.Component {
         <Text style={material.caption}>{user.location || 'No Location'}</Text>
       </View>
     );
-  }
+  };
 
   getFeedContent = () => {
-    const { loading, content } = this.state;
-
+    const {loading, content} = this.state;
     if (loading) {
       return (
-        <ActivityIndicator />
+        <ActivityIndicator/>
       );
     } else {
       return (
         <Feed content={content} listHeaderComponent={this.getUserContent()}/>
       );
     }
-  }
+  };
 
-  sleep = (ms) => {
+  sleep = ms => {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 

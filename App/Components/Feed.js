@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
-import { getPopularPhotos } from '../API/Unsplash.js';
+import {StyleSheet, View, FlatList, ActivityIndicator} from 'react-native';
+import {getPopularPhotos} from '../API/Unsplash.js';
 import FeedItem from '../Components/FeedItem';
-import { Entypo } from '@expo/vector-icons';
+import {Entypo} from '@expo/vector-icons';
 
 export default class Feed extends React.Component {
 
-  static defaultProps = { content: null }
+  static defaultProps = {content: null};
 
   /* Part 1.3 you will need to add a new prop here of type PropTypes.func */
   /* The HomeScreen.js file is in charge of passing this prop */
@@ -23,7 +23,7 @@ export default class Feed extends React.Component {
     feedEntries: [],
   };
 
-  componentDidMount(){
+  componentDidMount() {
     if (this.props.content) {
       this.setState({feedEntries: this.props.content});
     } else {
@@ -39,8 +39,8 @@ export default class Feed extends React.Component {
     });
   };
 
-  onProfilePressed = (username) => {
-	/* Part 1.4 */
+  onProfilePressed = username => {
+    /* Part 1.4 */
     /* call the prop that you created in Part 1.3 here!*/
     /* make sure that the prop is not null first by using an if statement*/
     /* when calling the prop function, pass the username to it */
@@ -54,7 +54,7 @@ export default class Feed extends React.Component {
   _keyExtractor = item => item.id;
 
   renderItem = ({item}) => {
-	/* Part 1.2 */
+    /* Part 1.2 */
     /* Render the FeedItem that we made for you, here. */
     /* FeedItem props: content and onProfilePressed */
     /* Important spec: pass the function this.onProfilePressed to the FeedItem prop ^ */
@@ -75,11 +75,11 @@ export default class Feed extends React.Component {
   }
 
   getTabContent = () => {
-    const { loading } = this.state;
+    const {loading} = this.state;
 
     if (loading) {
       return (
-        <ActivityIndicator />
+        <ActivityIndicator/>
       );
     } else {
       /* Part 1.2 */

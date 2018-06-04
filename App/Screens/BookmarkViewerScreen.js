@@ -1,14 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { material } from 'react-native-typography';
-import { Metrics, Colors } from '../Themes';
-import { Entypo } from '@expo/vector-icons';
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import {material} from 'react-native-typography';
+import {Metrics, Colors} from '../Themes';
+import {Entypo} from '@expo/vector-icons';
 import FeedItem from '../Components/FeedItem'
 
 export default class BookmarkViewerScreen extends React.Component {
 
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({navigation}) => {
     const params = navigation.state.params || {};
 
     return {
@@ -18,17 +17,18 @@ export default class BookmarkViewerScreen extends React.Component {
           <Text style={[material.caption, {fontSize: 10}]}>Saved Bookmark</Text>
         </View>
       ),
-      tabBarIcon: ({ tintColor }) => (
-        <Entypo name="bookmark"
+      tabBarIcon: ({tintColor}) => (
+        <Entypo
+          name="bookmark"
           size={Metrics.icons.medium}
-          color={tintColor} />
+          color={tintColor}/>
       ),
     };
   };
 
   state = {
     content: {},
-  }
+  };
 
   componentDidMount() {
     const params = this.props.navigation.state.params || {};
@@ -41,7 +41,7 @@ export default class BookmarkViewerScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <FeedItem content={this.state.content} />
+          <FeedItem content={this.state.content}/>
         </ScrollView>
       </View>
     );

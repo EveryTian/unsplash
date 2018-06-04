@@ -14,9 +14,10 @@ export default class BookmarkScreen extends React.Component {
     return {
       title: 'Bookmarks',
       tabBarIcon: ({tintColor}) => (
-        <Entypo name="bookmark"
-                size={Metrics.icons.medium}
-                color={tintColor}/>
+        <Entypo
+          name="bookmark"
+          size={Metrics.icons.medium}
+          color={tintColor}/>
       ),
     };
   };
