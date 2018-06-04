@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, SafeAreaView, View, AsyncStorage, Image, TouchableOpacity, FlatList, Button } from 'react-native';
+import { Text, View, AsyncStorage, Image, TouchableOpacity, FlatList } from 'react-native';
 import { material } from 'react-native-typography';
-import { Metrics, Colors } from '../Themes';
+import { Metrics } from '../Themes';
 import { Entypo, FontAwesome } from '@expo/vector-icons';
 import AppConfig from '../Config/AppConfig';
-import FeedItem from '../Components/FeedItem'
 import styles from './Styles/BookmarkScreen.styles'
 
 export default class BookmarkScreen extends React.Component {
@@ -25,7 +24,7 @@ export default class BookmarkScreen extends React.Component {
   state = {
     bookmarks: [],
     isRefreshing: false,
-  }
+  };
 
   componentDidMount() {
     this.reloadBookmarks();
@@ -40,7 +39,6 @@ export default class BookmarkScreen extends React.Component {
         if (error) {
           console.log(error);
         } else {
-          // console.warn('result', result);
           if (result) {
             bookmark = JSON.parse(result);
           }
@@ -51,7 +49,7 @@ export default class BookmarkScreen extends React.Component {
       console.log(error);
     }
     return [];
-  }
+  };
 
   bookmarkPressed = (item) => {
 	/* Part 5.1 */
@@ -59,15 +57,15 @@ export default class BookmarkScreen extends React.Component {
 	/* pass the item on this function as a parameter to the navigate function*/
     this.props.navigation.navigate('BookmarkViewerScreen', { content: item });
 
-  }
+  };
 
   reloadBookmarks = async () => {
     this.setState({isRefreshing: true});
     const bookmarks = await this.getBookmarks();
     this.setState({bookmarks: bookmarks, isRefreshing: false});
-  }
+  };
 
-  _keyExtractor = (item, index) => item.id;
+  _keyExtractor = item => item.id;
 
   renderItem = ({item}) => {
     return (
@@ -81,7 +79,7 @@ export default class BookmarkScreen extends React.Component {
       </View>
       </TouchableOpacity>
     );
-  }
+  };
 
   render() {
 
