@@ -37,7 +37,7 @@ export default class BookmarkScreen extends React.Component {
       let bookmark = [];
       await AsyncStorage.getItem(AppConfig.keys.bookmarks, (error, result) => {
         if (error) {
-          console.log(error);
+          console.warn(error);
         } else {
           if (result) {
             bookmark = JSON.parse(result);
@@ -46,7 +46,7 @@ export default class BookmarkScreen extends React.Component {
       });
       return bookmark;
     } catch (error) {
-      console.log(error);
+      console.warn(error);
     }
     return [];
   };
