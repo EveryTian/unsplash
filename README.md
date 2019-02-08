@@ -1,5 +1,7 @@
 # Unsplash
 
+[Alerts](#alerts)
+
 ## 各界面演示
 
 ### Home Screen
@@ -283,3 +285,9 @@ getBookmarks = async () => {
 在主界面进行收藏之后我们可以在`BookmarkScreen`看到收藏内容，点击收藏内容便可进入`BookmarkViewerScreen`，如下图所示，在左图进行点击便可以进入右图：
 
 ![](screenshots/BookmarkScreen.png)![](screenshots/BookmarkViewerScreen.png)
+
+## Alerts
+
+This project is not maintained since it was finished. Please note.
+
+![](alerts.png)
